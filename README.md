@@ -1,11 +1,9 @@
-# scala-maven-template
+# Scala Game of Life kata [![Build Status](https://travis-ci.org/amitayh/scala-game-of-life.svg?branch=master)](https://travis-ci.org/amitayh/scala-game-of-life)
 
-A generic, maven-based, scala (or java) project template, with *very* basic configuration and initial libraries.
+Simple implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in Scala with TDD
 
-## What you get out-of-the-box
+## Running tests
 
-* Scala/Java project structure
-* Scala/Java main classes
-* Scala test example
-* Logback
-* Specs2
+```
+$ mvn test
+```
