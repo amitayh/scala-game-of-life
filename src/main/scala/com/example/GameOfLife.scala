@@ -39,4 +39,21 @@ object GameOfLife {
     def apply(livingCells: Cell*): Universe = Universe(livingCells.toSet)
   }
 
+  class UniverseViewFormatter(universe: Universe, x: Int, y: Int, width: Int, height: Int) {
+
+    def format: String = formatRows.mkString("\n")
+
+    private def formatRows: Seq[String] = for {
+      row <- x until x + height
+    } yield formatRow(row)
+
+    private def formatRow(row: Int): String = {
+      val areAlive = for {
+        col <- y until y + width
+      } yield universe.isAlive(Cell(col, row))
+      areAlive.map(isAlive => if (isAlive) "1" else "0").mkString(" ")
+    }
+
+  }
+
 }

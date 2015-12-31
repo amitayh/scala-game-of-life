@@ -1,6 +1,6 @@
 package com.example
 
-import com.example.GameOfLife.{Cell, Universe}
+import com.example.GameOfLife.{UniverseViewFormatter, Cell, Universe}
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.specification.Scope
 
@@ -42,6 +42,18 @@ class GameOfLifeTest extends SpecificationWithJUnit {
         nextGeneration.isAlive(cell2) must beFalse
       }
 
+      "kill a cell with 4 living neighbours" in {
+        val cell1 = Cell(0, 0)
+        val cell2 = Cell(1, 0)
+        val cell3 = Cell(0, 1)
+        val cell4 = Cell(1, 1)
+        val cell5 = Cell(2, 0)
+        val universe = Universe(cell1, cell2, cell3, cell4, cell5)
+        val nextGeneration = universe.nextGeneration
+
+        nextGeneration.isAlive(cell4) must beFalse
+      }
+
       "keep a cell with 2 living neighbours" in {
         val cell1 = Cell(0, 0)
         val cell2 = Cell(1, 0)
@@ -72,6 +84,47 @@ class GameOfLifeTest extends SpecificationWithJUnit {
 
         nextGeneration.isAlive(Cell(1, 1)) must beTrue
       }
+    }
+  }
+
+  "Universe view formatter" should {
+    "format a dead universe" in {
+      val universe = Universe()
+      val formatter = new UniverseViewFormatter(universe, 0, 0, 3, 2)
+
+      val expected =
+        """
+          |0 0 0
+          |0 0 0
+        """.stripMargin.trim
+
+      formatter.format must equalTo(expected)
+    }
+
+    "show living cells in view" in {
+      val universe = Universe(Cell(0, 0), Cell(2, 0), Cell(1, 1))
+      val formatter = new UniverseViewFormatter(universe, 0, 0, 2, 2)
+
+      val expected =
+        """
+          |1 0
+          |0 1
+        """.stripMargin.trim
+
+      formatter.format must equalTo(expected)
+    }
+
+    "show relative position" in {
+      val universe = Universe(Cell(0, 0), Cell(1, 1))
+      val formatter = new UniverseViewFormatter(universe, 1, 1, 2, 2)
+
+      val expected =
+        """
+          |1 0
+          |0 0
+        """.stripMargin.trim
+
+      formatter.format must equalTo(expected)
     }
   }
 
