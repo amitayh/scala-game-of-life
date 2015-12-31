@@ -1,6 +1,6 @@
-package com.example
+package com.conway
 
-import com.example.GameOfLife._
+import com.conway.GameOfLife._
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.specification.Scope
 

@@ -1,6 +1,6 @@
-package com.example
+package com.conway
 
-import com.example.GameOfLife.{Cell, Dimensions, Universe, UniverseViewFormatter}
+import com.conway.GameOfLife.{Cell, Dimensions, Universe, UniverseViewFormatter}
 
 object Main {
 
