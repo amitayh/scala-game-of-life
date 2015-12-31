@@ -88,7 +88,7 @@ class GameOfLifeTest extends SpecificationWithJUnit {
   }
 
   "Universe view formatter" should {
-    val formatConfig = FormatConfig('1', '0')
+    val formatConfig = FormatConfig("1", "0")
 
     "format a dead universe" in {
       val universe = Universe()

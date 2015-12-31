@@ -41,11 +41,14 @@ object GameOfLife {
 
   case class Dimensions(width: Int, height: Int)
 
-  case class FormatConfig(livingCell: Char = '*', deadCell: Char = ' ')
+  case class FormatConfig(livingCell: String = "*",
+                          deadCell: String = " ",
+                          colSeparator: String = " ",
+                          rowSeparator: String = "\n")
 
   class UniverseViewFormatter(topLeft: Cell, dimensions: Dimensions, formatConfig: FormatConfig = FormatConfig()) {
 
-    def format(universe: Universe): String = formatRows(universe).mkString("\n")
+    def format(universe: Universe): String = formatRows(universe).mkString(formatConfig.rowSeparator)
 
     private def formatRows(universe: Universe) = for {
       row <- topLeft.x until topLeft.x + dimensions.height
@@ -55,7 +58,7 @@ object GameOfLife {
       val areAlive = for {
         col <- topLeft.y until topLeft.y + dimensions.width
       } yield universe.isAlive(Cell(col, row))
-      areAlive.map(formatCell).mkString(" ")
+      areAlive.map(formatCell).mkString(formatConfig.colSeparator)
     }
 
     private def formatCell(isAlive: Boolean) = if (isAlive) formatConfig.livingCell else formatConfig.deadCell
