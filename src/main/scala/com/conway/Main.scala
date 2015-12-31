@@ -1,7 +1,5 @@
 package com.conway
 
-import com.conway.GameOfLife.{Cell, Dimensions, Universe, UniverseViewFormatter}
-
 object Main {
 
   def main(args: Array[String]) {
