@@ -1,6 +1,6 @@
 package com.example
 
-import com.example.GameOfLife.{UniverseViewFormatter, Cell, Universe}
+import com.example.GameOfLife._
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.specification.Scope
 
@@ -88,9 +88,11 @@ class GameOfLifeTest extends SpecificationWithJUnit {
   }
 
   "Universe view formatter" should {
+    val formatConfig = FormatConfig('1', '0')
+
     "format a dead universe" in {
       val universe = Universe()
-      val formatter = new UniverseViewFormatter(universe, 0, 0, 3, 2)
+      val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(3, 2), formatConfig)
 
       val expected =
         """
@@ -98,12 +100,12 @@ class GameOfLifeTest extends SpecificationWithJUnit {
           |0 0 0
         """.stripMargin.trim
 
-      formatter.format must equalTo(expected)
+      formatter.format(universe) must equalTo(expected)
     }
 
     "show living cells in view" in {
       val universe = Universe(Cell(0, 0), Cell(2, 0), Cell(1, 1))
-      val formatter = new UniverseViewFormatter(universe, 0, 0, 2, 2)
+      val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
 
       val expected =
         """
@@ -111,12 +113,12 @@ class GameOfLifeTest extends SpecificationWithJUnit {
           |0 1
         """.stripMargin.trim
 
-      formatter.format must equalTo(expected)
+      formatter.format(universe) must equalTo(expected)
     }
 
     "show relative position" in {
       val universe = Universe(Cell(0, 0), Cell(1, 1))
-      val formatter = new UniverseViewFormatter(universe, 1, 1, 2, 2)
+      val formatter = new UniverseViewFormatter(Cell(1, 1), Dimensions(2, 2), formatConfig)
 
       val expected =
         """
@@ -124,7 +126,7 @@ class GameOfLifeTest extends SpecificationWithJUnit {
           |0 0
         """.stripMargin.trim
 
-      formatter.format must equalTo(expected)
+      formatter.format(universe) must equalTo(expected)
     }
   }
 
