@@ -8,13 +8,13 @@ case class Universe(livingCells: Set[Cell]) {
 
   lazy val nextGeneration: Universe = Universe(nextLivingCells)
 
-  private lazy val nextLivingCells = nextLivingCellsFromLiving ++ nextLivingCellsFromDead
+  private def nextLivingCells = nextLivingCellsFromLiving ++ nextLivingCellsFromDead
 
-  private lazy val nextLivingCellsFromLiving = livingCells.filter(hasTwoOrThreeLivingNeighbours)
+  private def nextLivingCellsFromLiving = livingCells.filter(hasTwoOrThreeLivingNeighbours)
 
-  private lazy val nextLivingCellsFromDead = livingCellsDeadNeighbours.filter(countLivingNeighbours(_) == 3)
+  private def nextLivingCellsFromDead = livingCellsDeadNeighbours.filter(countLivingNeighbours(_) == 3)
 
-  private lazy val livingCellsDeadNeighbours = livingCells.flatMap(deadNeighbours)
+  private def livingCellsDeadNeighbours = livingCells.flatMap(deadNeighbours)
 
   private def deadNeighbours(cell: Cell) = neighbours(cell).filter(!isAlive(_))
 

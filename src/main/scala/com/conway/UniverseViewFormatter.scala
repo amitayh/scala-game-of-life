@@ -16,10 +16,9 @@ class UniverseViewFormatter(topLeft: Cell, dimensions: Dimensions, formatConfig:
   } yield formatRow(universe, row)
 
   private def formatRow(universe: Universe, row: Int) = {
-    val areAlive = for {
-      col <- topLeft.y until topLeft.y + dimensions.width
-    } yield universe.isAlive(Cell(col, row))
-    areAlive.map(formatCell).mkString(formatConfig.colSeparator)
+    val cols = topLeft.y until topLeft.y + dimensions.width
+    val formattedCells = cols.map(col => formatCell(universe.isAlive(Cell(col, row))))
+    formattedCells.mkString(formatConfig.colSeparator)
   }
 
   private def formatCell(isAlive: Boolean) = if (isAlive) formatConfig.livingCell else formatConfig.deadCell

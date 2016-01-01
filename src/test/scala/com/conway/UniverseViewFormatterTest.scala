@@ -1,12 +1,15 @@
 package com.conway
 
 import org.specs2.mutable.SpecificationWithJUnit
+import org.specs2.specification.Scope
 
 class UniverseViewFormatterTest extends SpecificationWithJUnit {
 
-  val formatConfig = FormatConfig("1", "0")
+  trait Context extends Scope {
+    val formatConfig = FormatConfig("1", "0")
+  }
 
-  "format a dead universe" in {
+  "format a dead universe" in new Context {
     val universe = Universe()
     val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(3, 2), formatConfig)
 
@@ -19,7 +22,7 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
     formatter.format(universe) must equalTo(expected)
   }
 
-  "show living cells in view" in {
+  "show living cells in view" in new Context {
     val universe = Universe(Cell(0, 0), Cell(2, 0), Cell(1, 1))
     val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
 
@@ -32,7 +35,7 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
     formatter.format(universe) must equalTo(expected)
   }
 
-  "show relative position" in {
+  "show relative position" in new Context {
     val universe = Universe(Cell(0, 0), Cell(1, 1))
     val formatter = new UniverseViewFormatter(Cell(1, 1), Dimensions(2, 2), formatConfig)
 
@@ -43,6 +46,14 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
       """.stripMargin.trim
 
     formatter.format(universe) must equalTo(expected)
+  }
+
+  "formatting config" in {
+    val universe = Universe(Cell(0, 0))
+    val formatConfig = FormatConfig("X", "O", "|", "-")
+    val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
+
+    formatter.format(universe) must equalTo("X|O-O|O")
   }
 
 }
