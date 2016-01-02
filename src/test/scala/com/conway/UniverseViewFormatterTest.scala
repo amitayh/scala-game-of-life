@@ -23,7 +23,10 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
   }
 
   "show living cells in view" in new Context {
-    val universe = Universe(Cell(0, 0), Cell(2, 0), Cell(1, 1))
+    val universe = Universe(
+      "1 0",
+      "0 1")
+
     val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
 
     val expected =
@@ -36,7 +39,10 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
   }
 
   "show relative position" in new Context {
-    val universe = Universe(Cell(0, 0), Cell(1, 1))
+    val universe = Universe(
+      "1 0",
+      "0 1")
+
     val formatter = new UniverseViewFormatter(Cell(1, 1), Dimensions(2, 2), formatConfig)
 
     val expected =
@@ -49,7 +55,7 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
   }
 
   "formatting config" in {
-    val universe = Universe(Cell(0, 0))
+    val universe = Universe("1")
     val formatConfig = FormatConfig("X", "O", "|", "-")
     val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
 

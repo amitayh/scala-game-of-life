@@ -1,5 +1,7 @@
 package com.conway
 
+import java.util.regex.Pattern
+
 case class Cell(x: Int, y: Int)
 
 case class Universe(livingCells: Set[Cell]) {
@@ -34,5 +36,20 @@ case class Universe(livingCells: Set[Cell]) {
 }
 
 case object Universe {
-  def apply(livingCells: Cell*): Universe = Universe(livingCells.toSet)
+
+  val defaultFormatConfig = FormatConfig(livingCell = "1", deadCell = "0")
+
+  def apply(rows: String*): Universe = this(defaultFormatConfig, rows: _*)
+
+  def apply(formatConfig: FormatConfig, rows: String*): Universe = {
+    val colSeparator = Pattern.quote(formatConfig.colSeparator)
+    val cells = for {
+      (row, rowIndex) <- rows.zipWithIndex
+      (col, colIndex) <- row.split(colSeparator).zipWithIndex
+      if col == formatConfig.livingCell
+    } yield Cell(colIndex, rowIndex)
+
+    Universe(cells.toSet)
+  }
+
 }

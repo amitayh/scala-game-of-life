@@ -1,12 +1,5 @@
 package com.conway
 
-case class Dimensions(width: Int, height: Int)
-
-case class FormatConfig(livingCell: String = "*",
-                        deadCell: String = " ",
-                        colSeparator: String = " ",
-                        rowSeparator: String = "\n")
-
 class UniverseViewFormatter(topLeft: Cell, dimensions: Dimensions, formatConfig: FormatConfig = FormatConfig()) {
 
   def format(universe: Universe): String = formatRows(universe).mkString(formatConfig.rowSeparator)
@@ -24,3 +17,5 @@ class UniverseViewFormatter(topLeft: Cell, dimensions: Dimensions, formatConfig:
   private def formatCell(isAlive: Boolean) = if (isAlive) formatConfig.livingCell else formatConfig.deadCell
 
 }
+
+case class Dimensions(width: Int, height: Int)

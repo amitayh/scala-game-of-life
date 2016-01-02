@@ -1,19 +1,28 @@
 package com.conway
 
 import org.specs2.mutable.SpecificationWithJUnit
-import org.specs2.specification.Scope
 
 class GameOfLifeTest extends SpecificationWithJUnit {
 
-  trait Context extends Scope {
-    def buildUniverse(rows: String*): Universe = {
-      val cells = for {
-        (row, rowIndex) <- rows.zipWithIndex
-        (col, colIndex) <- row.split(" ").zipWithIndex
-        if col == "1"
-      } yield Cell(colIndex, rowIndex)
+  "string builder" should {
+    "build a universe from marked cells" in {
+      val universe = Universe(
+        "1 0",
+        "0 1")
 
-      Universe(cells.toSet)
+      universe.isAlive(Cell(0, 0)) must beTrue
+      universe.isAlive(Cell(1, 1)) must beTrue
+      universe.isAlive(Cell(0, 1)) must beFalse
+    }
+
+    "use FormatConfig to determine format" in {
+      val formatConfig = FormatConfig(livingCell = "X", deadCell = "O", colSeparator = "|")
+      val universe = Universe(formatConfig,
+        "X|O",
+        "O|X")
+
+      universe.isAlive(Cell(0, 0)) must beTrue
+      universe.isAlive(Cell(1, 1)) must beTrue
     }
   }
 
@@ -24,22 +33,22 @@ class GameOfLifeTest extends SpecificationWithJUnit {
       universe.isAlive(Cell(0, 0)) must beFalse
     }
 
-    "be true if cell is alive" in new Context {
-      val universe = buildUniverse("1")
+    "be true if cell is alive" in {
+      val universe = Universe("1")
 
       universe.isAlive(Cell(0, 0)) must beTrue
     }
   }
 
   "nextGeneration" should {
-    "kill a cell with 0 living neighbours" in new Context {
-      val universe = buildUniverse("1")
+    "kill a cell with 0 living neighbours" in {
+      val universe = Universe("1")
 
       universe.nextGeneration.isAlive(Cell(0, 0)) must beFalse
     }
 
-    "kill a cell with 1 living neighbours" in new Context {
-      val universe = buildUniverse("1 1")
+    "kill a cell with 1 living neighbours" in {
+      val universe = Universe("1 1")
 
       val nextGeneration = universe.nextGeneration
 
@@ -47,8 +56,8 @@ class GameOfLifeTest extends SpecificationWithJUnit {
       nextGeneration.isAlive(Cell(1, 0)) must beFalse
     }
 
-    "kill a cell with 4 living neighbours" in new Context {
-      val universe = buildUniverse(
+    "kill a cell with 4 living neighbours" in {
+      val universe = Universe(
         "1 1",
         "1 1",
         "1 0")
@@ -58,15 +67,15 @@ class GameOfLifeTest extends SpecificationWithJUnit {
       nextGeneration.isAlive(Cell(1, 1)) must beFalse
     }
 
-    "keep a cell with 2 living neighbours" in new Context {
-      val universe = buildUniverse("1 1 1")
+    "keep a cell with 2 living neighbours" in {
+      val universe = Universe("1 1 1")
       val nextGeneration = universe.nextGeneration
 
       nextGeneration.isAlive(Cell(1, 0)) must beTrue
     }
 
-    "keep a cell with 3 living neighbours" in new Context {
-      val universe = buildUniverse(
+    "keep a cell with 3 living neighbours" in {
+      val universe = Universe(
         "0 1 0",
         "1 1 1")
 
@@ -75,8 +84,8 @@ class GameOfLifeTest extends SpecificationWithJUnit {
       nextGeneration.isAlive(Cell(1, 0)) must beTrue
     }
 
-    "revive dead cell with exactly 3 living neighbours" in new Context {
-      val universe = buildUniverse("1 1 1")
+    "revive dead cell with exactly 3 living neighbours" in {
+      val universe = Universe("1 1 1")
       val nextGeneration = universe.nextGeneration
 
       nextGeneration.isAlive(Cell(1, 1)) must beTrue
