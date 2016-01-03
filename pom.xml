@@ -11,6 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <specs2.version>3.6.6</specs2.version>
+        <scala.binary.version>2.11</scala.binary.version>
     </properties>
 
     <dependencies>
@@ -75,8 +76,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
             </plugins>
@@ -92,8 +93,9 @@
                         <arg>-deprecation</arg>
                     </args>
                     <addJavacArgs>-deprecation</addJavacArgs>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <scalaCompatVersion>${scala.binary.version}</scalaCompatVersion>
                 </configuration>
                 <executions>
                     <execution>
