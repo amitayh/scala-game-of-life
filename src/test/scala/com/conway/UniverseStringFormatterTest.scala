@@ -3,7 +3,7 @@ package com.conway
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.specification.Scope
 
-class UniverseViewFormatterTest extends SpecificationWithJUnit {
+class UniverseStringFormatterTest extends SpecificationWithJUnit {
 
   trait Context extends Scope {
     val formatConfig = FormatConfig("1", "0")
@@ -11,7 +11,7 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
 
   "format a dead universe" in new Context {
     val universe = Universe()
-    val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(3, 2), formatConfig)
+    val formatter = new UniverseStringFormatter(Cell(0, 0), Dimensions(3, 2), formatConfig)
 
     val expected =
       """
@@ -27,7 +27,7 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
       "1 0",
       "0 1")
 
-    val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
+    val formatter = new UniverseStringFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
 
     val expected =
       """
@@ -43,7 +43,7 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
       "1 0",
       "0 1")
 
-    val formatter = new UniverseViewFormatter(Cell(1, 1), Dimensions(2, 2), formatConfig)
+    val formatter = new UniverseStringFormatter(Cell(1, 1), Dimensions(2, 2), formatConfig)
 
     val expected =
       """
@@ -57,7 +57,7 @@ class UniverseViewFormatterTest extends SpecificationWithJUnit {
   "formatting config" in {
     val universe = Universe("1")
     val formatConfig = FormatConfig("X", "O", "|", "-")
-    val formatter = new UniverseViewFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
+    val formatter = new UniverseStringFormatter(Cell(0, 0), Dimensions(2, 2), formatConfig)
 
     formatter.format(universe) must equalTo("X|O-O|O")
   }

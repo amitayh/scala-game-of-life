@@ -2,6 +2,8 @@
 
 Simple implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in Scala with TDD
 
+![glider-gun](doc/glider-gun.png)
+
 ## Running tests
 
 ```
