@@ -18,7 +18,7 @@ case class Universe(livingCells: Set[Cell]) {
 
   private def livingCellsDeadNeighbours = livingCells.flatMap(deadNeighbours)
 
-  private def deadNeighbours(cell: Cell) = neighbours(cell).filter(!isAlive(_))
+  private def deadNeighbours(cell: Cell) = neighbours(cell).filterNot(isAlive)
 
   private def hasTwoOrThreeLivingNeighbours(cell: Cell) = {
     val livingNeighbours = countLivingNeighbours(cell)
