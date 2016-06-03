@@ -1,16 +1,18 @@
 package com.conway.swing
 
-import java.awt.{Graphics2D, Graphics, Color}
-import javax.swing.{JPanel, JFrame}
+import java.awt.{Color, Graphics, Graphics2D}
+import java.util.concurrent.LinkedBlockingDeque
+import javax.swing.{JFrame, JPanel}
 
-import com.conway.{Universe, Dimensions}
+import com.conway.{Dimensions, Universe}
 
 class UniverseFrame(dimensions: Dimensions) extends JFrame {
 
   val updateDelay = 100
   val cellSize = 5
+  val calculateAhead = 2
   val painter = new UniversePainter(Color.WHITE, Color.BLACK, dimensions, cellSize)
-
+  val nextUniverses = new LinkedBlockingDeque[Universe](calculateAhead)
   var universe: Universe = _
 
   setTitle("Conway's Game of Life")
@@ -24,24 +26,25 @@ class UniverseFrame(dimensions: Dimensions) extends JFrame {
   })
 
   def start(initialUniverse: Universe): Unit = {
-    paintUniverse(initialUniverse)
     new Thread(new Runnable {
       override def run(): Unit = {
-        updateLoop()
+        var nextUniverse = initialUniverse
+        while (true) {
+          nextUniverses.put(nextUniverse)
+          nextUniverse = nextUniverse.nextGeneration
+        }
       }
     }).start()
-  }
 
-  private def paintUniverse(universe: Universe): Unit = {
-    this.universe = universe
-    repaint()
-  }
-
-  private def updateLoop(): Unit = {
-    while (true) {
-      Thread.sleep(updateDelay)
-      paintUniverse(universe.nextGeneration)
-    }
+    new Thread(new Runnable {
+      override def run(): Unit = {
+        while (true) {
+          universe = nextUniverses.take()
+          repaint()
+          Thread.sleep(updateDelay)
+        }
+      }
+    }).start()
   }
 
 }
