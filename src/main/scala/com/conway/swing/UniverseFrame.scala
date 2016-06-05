@@ -13,7 +13,7 @@ class UniverseFrame(dimensions: Dimensions) extends JFrame {
   val calculateAhead = 2
   val painter = new UniversePainter(Color.WHITE, Color.BLACK, dimensions, cellSize)
   val nextUniverses = new LinkedBlockingDeque[Universe](calculateAhead)
-  var universe: Universe = _
+  @volatile var universe: Universe = _
 
   setTitle("Conway's Game of Life")
   setLocationRelativeTo(null)
